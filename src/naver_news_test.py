@@ -1,5 +1,7 @@
 import requests # requests 라이브러리 불러오기
 from bs4 import BeautifulSoup
+import pandas as pd
+import openpyxl
 
 url = "https://news.naver.com/section/105"
 response = requests.get(url) # url에 get 요청을 보냄
@@ -35,7 +37,22 @@ print(headline_news_title)
 # 뉴스 제목을 반복문을 이용하여 순회
 for idx, title in enumerate(headline_news_title):
   print(f"{idx + 1} : {title}")
+  
+data = {
+  "네이버 헤드라인 뉴스 제목":headline_news_title
+}
 
+# print(data)
+ 
+# 헤드라인 뉴스 제목을 엑셀에 저장
+df = pd.DataFrame(data)
+save_path = 'C:\work\python_projects\뉴스_기사.xlsx'
+
+# 엑셀 파일로 저장
+df.to_excel(save_path, index=False, engine='openpyxl')
+print(f"{save_path} 로 엑셀 파일이 저장되었습니다.")  
+
+'''
 print("== 특정 키워드를 이용하여 원하는 뉴스 기사 추출하기 ==")
 keyword = '넷플릭스'
 
@@ -48,5 +65,7 @@ find_keyword_new_title = []
 for idx, title in enumerate(headline_news_title):  
   if title.find(keyword) != -1:
     find_keyword_new_title.append(title)
-    
+
+# 특정 키워드가 담긴 리스트 출력    
 print(find_keyword_new_title)    
+'''
